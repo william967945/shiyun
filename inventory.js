@@ -1,5 +1,6 @@
 import { seq } from './app.js';
 import axios from 'axios';
+import e from 'express';
 
 var inventoryId = 1;
 async function sendLine(body) {
@@ -13,13 +14,13 @@ async function sendLine(body) {
             // 'Content-Type': 'multipart/form-data'
         },
         params: {
-            message: `${body.title}預算水位警告 目前剩餘庫存：${body.quantity} 包 請與廠商補貨`,
+            message: `${body.title}預算水位警告 \n目前剩餘庫存：${body.quantity} 包 \n請與廠商補貨`,
         },
     };
 
     try {
         await axios(params);
-        console.log("line successed ");
+        console.log("line successed: ", body.title, body.quantity);
         return;
     } catch (err) {
         console.log("err: ", err);
@@ -29,7 +30,13 @@ async function sendLine(body) {
 const getInventorys = async (req, res) => {
     const [results, metadata] = await seq.query(`SELECT * from Inventory`);
     console.log('Inventory list: ', results);
-    sendLine(results[0]);
+
+    // check each quantity
+    for (let i = 0; i < results.length; i++) {
+        if (results[i].quantity < 3) {
+            sendLine(results[i]);
+        }
+    }
 
     const response = {
         result: results,
@@ -94,7 +101,7 @@ const postInventory = async (req, res) => {
         console.log("ERROR!!");
         res.send(error);
     }
-};  
+};
 
 const putInventory = async (req, res) => {
     console.log('req data: ', req.body);

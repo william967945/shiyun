@@ -1,7 +1,7 @@
 import { seq } from './app.js';
 import config from 'config';
 
-var orderId = 0;
+var orderId = 10000001950;
 var orderNumber = 20;
 const getOrders = async (req, res) => {
     const [results, metadata] = await seq.query("SELECT * from Orders");
