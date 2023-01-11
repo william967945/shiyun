@@ -1,0 +1,26 @@
+import { Router } from 'express';
+var router = Router();
+
+
+router.get('/healthcheck', function (req, res) {
+    let time = new Date();
+    let message = 'OK';
+    const healthcheck = {
+        time: new Date(),
+        message: 'OK'
+    }
+    try {
+        res.json(healthcheck)
+    } catch (e) {
+        res.status(503).send()
+    }
+    console.log('healthcheck: ', time, message);
+})
+
+
+// router.post('/', prepareTicoNumber);
+// router.post('/device/scanner', callTicoNumber);
+// router.post('/v2/device/scanner', callVoiceCallNumber);
+
+
+export default router;
