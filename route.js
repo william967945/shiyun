@@ -14,8 +14,15 @@ import {
     postItem
 } from './item.js'
 import {
+    getEmployees,
+    getEmployee
+} from './employee.js'
+import {
     getCustomers,
-    getCustomer
+    getCustomer,
+    postCustomer,
+    putCustomer,
+    deleteCustomer
 } from './customer.js'
 import {
     getInventorys,
@@ -40,22 +47,6 @@ router.get('/healthcheck', function (req, res) {
     console.log('healthcheck: ', time, message);
 })
 
-router.get('/employee', async function (req, res) {
-    const [results, metadata] = await seq.query("SELECT * from Employee");
-    console.log('Sequelize results: ', results);
-    const response = {
-        result: results,
-        message: 'OK'
-    }
-    try {
-        res.json(response)
-    } catch (e) {
-        console.log(error);
-        console.log("ERROR!!");
-        res.send(error);
-    }
-})
-
 // Order
 router.get('/orders', getOrders);
 router.get('/orders/:orderId', getOrder);
@@ -68,11 +59,19 @@ router.get('/items', getItems);
 router.get('/item/:itemId', getItem);
 router.post('/item', postItem);
 
+// Employee
+router.get('/employees', getEmployees);
+router.get('/employee/:employeeId', getEmployee);
 // Customer
 router.get('/customers', getCustomers);
 router.get('/customer/:customerId', getCustomer);
+router.post('/customer', postCustomer);
+router.put('/customer/:customerId/update', putCustomer);
+router.delete('/customer/:customerId/delete', deleteCustomer);
 
 // Inventory
 router.get('/inventorys', getInventorys);
 router.get('/inventory/:inventory', getInventory);
+
+
 export default router;
