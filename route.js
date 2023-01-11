@@ -17,7 +17,19 @@ router.get('/healthcheck', function (req, res) {
     console.log('healthcheck: ', time, message);
 })
 
-
+router.get('/employee', async function (req,res) {
+    const [results, metadata] = await seq.query("SELECT * from Employee");
+    console.log('Sequelize results: ', results);
+    const response = {
+        result: results,
+        message: 'OK'
+    }
+    try {
+        res.json(response)
+    } catch (e) {
+        res.status().send()
+    }
+})
 // router.post('/', prepareTicoNumber);
 // router.post('/device/scanner', callTicoNumber);
 // router.post('/v2/device/scanner', callVoiceCallNumber);
