@@ -17,6 +17,10 @@ import {
     getCustomers,
     getCustomer
 } from './customer.js'
+import {
+    getInventorys,
+    getInventory
+} from './inventory.js'
 
 var router = Router();
 
@@ -65,7 +69,10 @@ router.get('/item/:itemId', getItem);
 router.post('/item', postItem);
 
 // Customer
-router.get('/customer', getCustomers);
+router.get('/customers', getCustomers);
 router.get('/customer/:customerId', getCustomer);
 
+// Inventory
+router.get('/inventorys', getInventorys);
+router.get('/inventory/:inventory', getInventory);
 export default router;
