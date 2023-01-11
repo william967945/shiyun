@@ -4,8 +4,14 @@ import { seq } from './app.js';
 import {
     getOrders,
     getOrder,
-    postOrder
+    postOrder,
+    putOrder,
+    cancelOrder
 } from './order.js'
+import {
+    getItem
+} from './item.js'
+
 
 var router = Router();
 
@@ -45,7 +51,11 @@ router.get('/employee', async function (req, res) {
 router.get('/orders', getOrders);
 router.get('/orders/:orderId', getOrder);
 router.post('/orders', postOrder);
+router.put('/orders/:orderId/update', putOrder);
+router.put('/orders/:orderId/cancel', cancelOrder);
 
+// Items
+router.get('/item/:itemId', getItem);
 // router.post('/device/scanner', callTicoNumber);
 // router.post('/v2/device/scanner', callVoiceCallNumber);
 

@@ -1,6 +1,8 @@
 import { seq } from './app.js';
 import config from 'config';
 
+var orderId = 0;
+var orderNumber = 20;
 const getOrders = async (req, res) => {
     const [results, metadata] = await seq.query("SELECT * from Orders");
     console.log('Orders list: ', results);
@@ -19,7 +21,7 @@ const getOrders = async (req, res) => {
 };
 
 const getOrder = async (req, res) => {
-    const orderId = req.params.orderId;  
+    const orderId = req.params.orderId;
     console.log('orderId: ', orderId);
     const [results, metadata] = await seq.query(`SELECT * from Orders WHERE orderId = ${orderId}`);
     console.log('Orders list: ', results);
@@ -47,28 +49,98 @@ const postOrder = async (req, res) => {
     //     "paymentType": "現金",
     //     "itemId": "4:8:9:18"
     // }
-
-    let values = [];
-    values.push();
-
-    const [results, metadata] = await seq.query(`
-    INSERT INTO Orders VALUES (
-        '1', 
-        'accepted', 
-        '3',
-        '170',
-        '內用',
-        '現金',
-        '4:8:9:18',
-        '21'
-        )
-    `);
-    console.log('Orders list: ', results);
-    const response = {
-        orderId: "1",
-        orderNumber: "21"
-    }
+    console.log('req data: ', req.body);
     try {
+        let customerId = req.body.customer_id;
+        let amount = req.body.amount;
+        let mealType = req.body.mealType;
+        let paymentType = req.body.paymentType;
+        let itemId = req.body.itemId;
+
+        // let customerId = 3;
+        // let amount = 170;
+        // let mealType = "內用";
+        // let paymentType = "現金";
+        // let itemId = '4:8:9:18';
+
+        orderId++;
+        orderNumber++;
+        const [results, metadata] = await seq.query(`INSERT INTO Orders VALUES (${orderId},'accepted','${customerId}', '${amount}', '${mealType}','${paymentType}','${itemId}', '${orderNumber}')`);
+        console.log('Orders list: ', results);
+        const response = {
+            orderId: orderId.toString(),
+            orderNumber: orderNumber,
+            message: 'OK'
+        }
+
+        res.json(response)
+        res.status(200)
+    } catch (error) {
+        console.log(error);
+        console.log("ERROR!!");
+        res.send(error);
+    }
+};
+
+const putOrder = async (req, res) => {
+    // {
+    //     "orderNumber": "21",
+    //     "currentState": "accepted",
+    //     "customer_id": "3",
+    //     "amount": "170",
+    //     "mealType": "內用",
+    //     "paymentType": "現金",
+    //     "itemId": "4:8:9:18"
+    // }
+    console.log('req data: ', req.body);
+    try {
+        let amount = req.body.amount;
+        let itemId = req.body.itemId;
+        let orderId = req.body.orderId;
+
+        const [results, metadata] = await seq.query(`UPDATE Orders SET amount = '${amount}', itemId = '${itemId}' WHERE orderId = '${orderId}'`);
+        console.log('Orders list: ', results);
+        const response = {
+            orderId: orderId.toString(),
+            amount: amount,
+            itemId: itemId,
+            message: 'OK'
+        }
+
+        res.json(response)
+        res.status(200)
+    } catch (error) {
+        console.log(error);
+        console.log("ERROR!!");
+        res.send(error);
+    }
+};
+
+const cancelOrder = async (req, res) => {
+    // {
+    //     "orderNumber": "21",
+    //     "currentState": "accepted",
+    //     "customer_id": "3",
+    //     "amount": "170",
+    //     "mealType": "內用",
+    //     "paymentType": "現金",
+    //     "itemId": "4:8:9:18"
+    // }
+    console.log('req data: ', req.body);
+    try {
+        let amount = req.body.amount;
+        let itemId = req.body.itemId;
+        let orderId = req.body.orderId;
+        let currentState = "cancelled";
+
+        const [results, metadata] = await seq.query(`UPDATE Orders SET currentState = '${currentState}' WHERE orderId = '${orderId}'`);
+        console.log('Orders list: ', results);
+        const response = {
+            orderId: orderId.toString(),
+            currentState: currentState,
+            message: 'OK'
+        }
+
         res.json(response)
         res.status(200)
     } catch (error) {
@@ -79,8 +151,11 @@ const postOrder = async (req, res) => {
 };
 
 
+
 export {
     getOrders,
     getOrder,
-    postOrder
-  }
+    postOrder,
+    putOrder,
+    cancelOrder
+}

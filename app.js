@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { config } from 'dotenv';
 import Sequelize from "sequelize";
-
+import cors from 'cors';
 
 import db from './db.js';
 import indexRouter from './route.js';
@@ -19,7 +19,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(join(__dirname, 'public')));
-
+app.use(cors());
 app.use('/', indexRouter);
 
 // const seq = db;
