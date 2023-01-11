@@ -81,5 +81,6 @@ const postOrder = async (req, res) => {
 
 export {
     getOrders,
-    getOrder
+    getOrder,
+    postOrder
   }
