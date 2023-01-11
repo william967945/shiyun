@@ -68,5 +68,5 @@ const postItem = async (req, res) => {
 export {
     getItems,
     getItem,
-    postItem
+    postItem,
 }

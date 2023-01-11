@@ -1,6 +1,7 @@
 import { seq } from './app.js';
 import axios from 'axios';
 
+var inventoryId = 1;
 async function sendLine(body) {
     let params = {
         url: "https://notify-api.line.me/api/notify",
@@ -62,7 +63,76 @@ const getInventory = async (req, res) => {
     }
 };
 
+const postInventory = async (req, res) => {
+    console.log('req data: ', req.body);
+    try {
+        let title = req.body.title;
+        let price = req.body.price;
+        let quantity = req.body.quantity;
+        let orderDate = req.body.orderDate;
+        let arrivalDate = req.body.arrivalDate;
+        let expirationDate = req.body.expirationDate;
+
+        inventoryId++;
+        const [results, metadata] = await seq.query(`INSERT INTO Inventory VALUES ('${inventoryId}', '${title}', '${price}', '${quantity}', '${orderDate}', '${arrivalDate}', '${expirationDate}')`);
+        console.log('Inventory list: ', results);
+        const response = {
+            inventoryId: inventoryId.toString(),
+            title: title,
+            price: price,
+            quantity: quantity,
+            orderDate: orderDate,
+            arrivalDate: arrivalDate,
+            expirationDate: expirationDate,
+            message: 'OK'
+        }
+
+        res.json(response)
+        res.status(200)
+    } catch (error) {
+        console.log(error);
+        console.log("ERROR!!");
+        res.send(error);
+    }
+};  
+
+const putInventory = async (req, res) => {
+    console.log('req data: ', req.body);
+    try {
+        let title = req.body.title;
+        let price = req.body.price;
+        let quantity = req.body.quantity;
+        let orderDate = req.body.orderDate;
+        let arrivalDate = req.body.arrivalDate;
+        let expirationDate = req.body.expirationDate;
+        let inventoryId = req.params.inventoryId;
+
+        const [results, metadata] = await seq.query(`UPDATE Inventory SET title = '${title}', price = '${price}', quantity = '${quantity}', orderDate = '${orderDate}', arrivalDate = '${arrivalDate}', expirationDate = '${expirationDate}' WHERE inventoryId = ${inventoryId}`);
+        console.log('Inventory list: ', results);
+        const response = {
+            inventoryId: inventoryId.toString(),
+            title: title,
+            price: price,
+            quantity: quantity,
+            orderDate: orderDate,
+            arrivalDate: arrivalDate,
+            expirationDate: expirationDate,
+            message: 'OK'
+        }
+
+        res.json(response)
+        res.status(200)
+    } catch (error) {
+        console.log(error);
+        console.log("ERROR!!");
+        res.send(error);
+    }
+};
+
+
 export {
     getInventorys,
-    getInventory
+    getInventory,
+    postInventory,
+    putInventory
 }

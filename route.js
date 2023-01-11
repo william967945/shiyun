@@ -15,7 +15,9 @@ import {
 } from './item.js'
 import {
     getEmployees,
-    getEmployee
+    getEmployee,
+    postEmployee,
+    putEmployee
 } from './employee.js'
 import {
     getCustomers,
@@ -26,7 +28,9 @@ import {
 } from './customer.js'
 import {
     getInventorys,
-    getInventory
+    getInventory,
+    postInventory,
+    putInventory
 } from './inventory.js'
 
 var router = Router();
@@ -62,6 +66,8 @@ router.post('/item', postItem);
 // Employee
 router.get('/employees', getEmployees);
 router.get('/employee/:employeeId', getEmployee);
+router.post('/employee', postEmployee);
+router.put('/employee/:employeeId/update', putEmployee);
 // Customer
 router.get('/customers', getCustomers);
 router.get('/customer/:customerId', getCustomer);
@@ -71,7 +77,9 @@ router.delete('/customer/:customerId/delete', deleteCustomer);
 
 // Inventory
 router.get('/inventorys', getInventorys);
-router.get('/inventory/:inventory', getInventory);
+router.get('/inventory/:inventoryId', getInventory);
+router.post('/inventory',postInventory);
+router.put('/inventory/:inventoryId/update', putInventory);
 
 
 export default router;
