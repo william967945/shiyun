@@ -69,18 +69,21 @@ const postInventory = async (req, res) => {
         let title = req.body.title;
         let price = req.body.price;
         let quantity = req.body.quantity;
-        // let orderDate = req.body.orderDate;
-        // let arrivalDate = req.body.arrivalDate;
-        // let expirationDate = req.body.expirationDate;
+        let orderDate = req.body.orderDate;
+        let arrivalDate = req.body.arrivalDate;
+        let expirationDate = req.body.expirationDate;
 
         inventoryId++;
-        const [results, metadata] = await seq.query(`INSERT INTO Inventory VALUES ('${inventoryId}', '${title}', '${price}', '${quantity}')`);
+        const [results, metadata] = await seq.query(`INSERT INTO Inventory VALUES ('${inventoryId}', '${title}', '${price}', '${quantity}', '${orderDate}', '${arrivalDate}', '${expirationDate}')`);
         console.log('Inventory list: ', results);
         const response = {
             inventoryId: inventoryId.toString(),
             title: title,
             price: price,
             quantity: quantity,
+            orderDate: orderDate,
+            arrivalDate: arrivalDate,
+            expirationDate: expirationDate,
             message: 'OK'
         }
 
@@ -100,17 +103,20 @@ const putInventory = async (req, res) => {
         let price = req.body.price;
         let quantity = req.body.quantity;
         let orderDate = req.body.orderDate;
-        // let arrivalDate = req.body.arrivalDate;
-        // let expirationDate = req.body.expirationDate;
-        // let inventoryId = req.params.inventoryId;
+        let arrivalDate = req.body.arrivalDate;
+        let expirationDate = req.body.expirationDate;
+        let inventoryId = req.params.inventoryId;
 
-        const [results, metadata] = await seq.query(`UPDATE Inventory SET title = '${title}', price = '${price}', quantity = '${quantity}', orderDate = '${orderDate}' WHERE inventoryId = ${inventoryId}`);
+        const [results, metadata] = await seq.query(`UPDATE Inventory SET title = '${title}', price = '${price}', quantity = '${quantity}', orderDate = '${orderDate}', arrivalDate = '${arrivalDate}', expirationDate = '${expirationDate}' WHERE inventoryId = ${inventoryId}`);
         console.log('Inventory list: ', results);
         const response = {
             inventoryId: inventoryId.toString(),
             title: title,
             price: price,
             quantity: quantity,
+            orderDate: orderDate,
+            arrivalDate: arrivalDate,
+            expirationDate: expirationDate,
             message: 'OK'
         }
 
