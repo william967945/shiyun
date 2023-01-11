@@ -5,11 +5,25 @@ var orderId = 0;
 var orderNumber = 20;
 const getOrders = async (req, res) => {
     const [results, metadata] = await seq.query("SELECT * from Orders");
-    console.log('Orders list: ', results);
+    console.log('Orders list: ', results); // array
+    let finalItemArray = [];
+    // call Menu api
+    let itemArray = results[0].itemId.split(':');
+    for (let i = 0; i < itemArray.length; i++) {
+        const element = itemArray[i];
+        const [itemName, metadata2] = await seq.query(`SELECT * from Menu WHERE menuId = ${itemArray[i]}`);
+        let itemTitle = itemName[0].title;
+        console.log('itemName: ', itemTitle);
+        finalItemArray.push(itemTitle);
+    }
+    results[0].itemId = finalItemArray.toString();
+    
+
     const response = {
         result: results,
         message: 'OK'
     }
+    console.log('response: ', response);
     try {
         res.json(response)
         res.status(200)
