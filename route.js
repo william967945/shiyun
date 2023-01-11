@@ -9,9 +9,14 @@ import {
     cancelOrder
 } from './order.js'
 import {
-    getItem
+    getItems,
+    getItem,
+    postItem
 } from './item.js'
-
+import {
+    getCustomers,
+    getCustomer
+} from './customer.js'
 
 var router = Router();
 
@@ -55,9 +60,12 @@ router.put('/orders/:orderId/update', putOrder);
 router.put('/orders/:orderId/cancel', cancelOrder);
 
 // Items
+router.get('/items', getItems);
 router.get('/item/:itemId', getItem);
-// router.post('/device/scanner', callTicoNumber);
-// router.post('/v2/device/scanner', callVoiceCallNumber);
+router.post('/item', postItem);
 
+// Customer
+router.get('/customer', getCustomers);
+router.get('/customer/:customerId', getCustomer);
 
 export default router;

@@ -40,15 +40,6 @@ const getOrder = async (req, res) => {
 };
 
 const postOrder = async (req, res) => {
-    // {
-    //     "orderNumber": "21",
-    //     "currentState": "accepted",
-    //     "customer_id": "3",
-    //     "amount": "170",
-    //     "mealType": "內用",
-    //     "paymentType": "現金",
-    //     "itemId": "4:8:9:18"
-    // }
     console.log('req data: ', req.body);
     try {
         let customerId = req.body.customer_id;
@@ -56,12 +47,6 @@ const postOrder = async (req, res) => {
         let mealType = req.body.mealType;
         let paymentType = req.body.paymentType;
         let itemId = req.body.itemId;
-
-        // let customerId = 3;
-        // let amount = 170;
-        // let mealType = "內用";
-        // let paymentType = "現金";
-        // let itemId = '4:8:9:18';
 
         orderId++;
         orderNumber++;
