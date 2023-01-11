@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import { seq } from './app.js';
 
+import {
+    getOrders,
+    getOrder,
+    postOrder
+} from './order.js'
+
 var router = Router();
 
 
@@ -19,7 +25,7 @@ router.get('/healthcheck', function (req, res) {
     console.log('healthcheck: ', time, message);
 })
 
-router.get('/employee', async function (req,res) {
+router.get('/employee', async function (req, res) {
     const [results, metadata] = await seq.query("SELECT * from Employee");
     console.log('Sequelize results: ', results);
     const response = {
@@ -29,10 +35,17 @@ router.get('/employee', async function (req,res) {
     try {
         res.json(response)
     } catch (e) {
-        res.status().send()
+        console.log(error);
+        console.log("ERROR!!");
+        res.send(error);
     }
 })
-// router.post('/', prepareTicoNumber);
+
+// Order
+router.get('/orders', getOrders);
+router.get('/orders/:orderId', getOrder);
+router.post('/orders', postOrder);
+
 // router.post('/device/scanner', callTicoNumber);
 // router.post('/v2/device/scanner', callVoiceCallNumber);
 
