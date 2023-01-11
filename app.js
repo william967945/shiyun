@@ -32,7 +32,7 @@ seq.authenticate().then(() => {
 }).catch((error) => {
   console.error('Unable to connect to the database: ', error);
 });
-
+//
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
   console.log("next-------------------------------------")
