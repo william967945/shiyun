@@ -22,7 +22,7 @@ app.use(cookieParser());
 // app.use(express.static(join(__dirname, 'public')));
 app.use(cors());
 app.use('/', indexRouter);
-
+//
 // const seq = db;
 
 const seq = new Sequelize('mysql://root:CtkHleNgIv3HoFOwmhyI@containers-us-west-51.railway.app:5738/railway') // Example for sqlite
