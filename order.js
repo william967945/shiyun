@@ -7,17 +7,17 @@ const getOrders = async (req, res) => {
     const [results, metadata] = await seq.query("SELECT * from Orders");
     console.log('Orders list: ', results); // array
     // call Menu api
-    for (let j = 0; j < results.length; j++) {
-        let finalItemArray = [];
-        let itemArray = results[j].itemId.split(':');
-        for (let i = 0; i < itemArray.length; i++) {
-            const [itemName, metadata2] = await seq.query(`SELECT * from Menu WHERE menuId = ${itemArray[i]}`);
-            let itemTitle = itemName[0].title;
-            console.log('itemName: ', itemTitle);
-            finalItemArray.push(itemTitle);
-        }
-        results[j].itemId = finalItemArray.toString();
-    }
+    // for (let j = 0; j < results.length; j++) {
+    //     let finalItemArray = [];
+    //     let itemArray = results[j].itemId.split(':');
+    //     for (let i = 0; i < itemArray.length; i++) {
+    //         const [itemName, metadata2] = await seq.query(`SELECT * from Menu WHERE menuId = ${itemArray[i]}`);
+    //         let itemTitle = itemName[0].title;
+    //         console.log('itemName: ', itemTitle);
+    //         finalItemArray.push(itemTitle);
+    //     }
+    //     results[j].itemId = finalItemArray.toString();
+    // }
 
 
 
